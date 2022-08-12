@@ -1,0 +1,32 @@
+diff -ru a/etc/init.d/rcS b/etc/init.d/rcS
+--- a/etc/init.d/rcS	2022-04-06 11:54:51.000000000 +0200
++++ b/etc/init.d/rcS	2022-04-06 11:55:19.000000000 +0200
+@@ -84,7 +84,12 @@
+ FS_CORRUPT=0
+ dosfsck -a -w /dev/mmcblk0p3 || dosfsck -a -w /dev/mmcblk0p3 || dosfsck -a -w /dev/mmcblk0p3 || dosfsck -a -w /dev/mmcblk0p3 || FS_CORRUPT=1
+ [ ! -s /usr/local/Kobo/pickel ] && FORCE_FACTORY_RESET=1
+-/usr/local/Kobo/pickel should-factory-reset
++PLATO_HOME=/usr/local/Plato
++if [ -e "$PLATO_HOME"/bootlock ]; then
++	true
++else
++	/usr/local/Kobo/pickel should-factory-reset
++fi
+ if [ $? != 0 ] || [ $FS_CORRUPT == 1 ] || [ $FORCE_FACTORY_RESET == 1 ]; then
+ 	case $PRODUCT in
+ 		kraken|phoenix)
+@@ -226,7 +231,12 @@
+ /bin/dbus-daemon --system &
+ export DBUS_SESSION_BUS_ADDRESS=`/bin/dbus-daemon --session --print-address --fork`
+ 
+-/usr/local/Kobo/hindenburg &
+-LIBC_FATAL_STDERR_=1 /usr/local/Kobo/nickel -platform kobo -skipFontLoad &
++if [ -e "$PLATO_HOME"/bootlock -a -x "$PLATO_HOME"/plato.sh ]; then
++	PLATO_STANDALONE=1 "$PLATO_HOME"/plato.sh &
++else
++	[ -e "$PLATO_HOME"/bootlock ] && rm "$PLATO_HOME"/bootlock
++	/usr/local/Kobo/hindenburg &
++	LIBC_FATAL_STDERR_=1 /usr/local/Kobo/nickel -platform kobo -skipFontLoad &
++fi
+ [ $PLATFORM != freescale ] && rm -rf /dev/mmcblk1* && udevadm trigger &
+ [ -e /drivers/$PLATFORM/misc/lowmem.ko ] && insmod /drivers/$PLATFORM/misc/lowmem.ko &

@@ -1,0 +1,36 @@
+#+title: Research
+
+Kobo Libra 2 arch: Linux kobo 4.1.15 #89 SMP PREEMPT Tue Jul 19 11:17:49 CST 2022 armv7l GNU/Linux
+
+processor	: 0
+model name	: ARMv7 Processor rev 1 (v7l)
+BogoMIPS	: 7.54
+Features	: half thumb fastmult vfp edsp neon vfpv3 tls vfpd32
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x4
+CPU part	: 0xc09
+CPU revision	: 1
+
+Hardware	: Freescale i.MX6 SoloLite (Device Tree)
+Revision	: 0000
+Serial		: 0000000000000000
+
+Preprocess image for eink screen ([[https://www.mobileread.com/forums/showpost.php?p=3728291&postcount=17][source]])
+#+begin_src shell
+convert input.png -colorspace Lab -distort Resize 1264x1680 -colorspace sRGB -background white -gravity center -extent 1264x1680! -grayscale Rec709Luminance -colorspace sRGB -dither Riemersma -remap eink_cmap.gif -quality 100 png:out.png
+#+end_src
+
+Tools like ssh and network over usb: [[https://www.mobileread.com/forums/showthread.php?t=254214]].
+
+* Build
+#+begin_src shell
+./build.sh && scp ./target/arm-unknown-linux-gnueabihf/release/eink-vnc-viewer root@192.168.2.2:/mnt/onboard/
+#+end_src
+* Launch
+On desktop:
+#+begin_src shell
+sudo ifconfig enxee4900038831 192.168.2.1 # for usb networking
+vncserver -kill :2; vncserver :2 -geometry 1264x1680 -compatiblekbd
+xtightvncviewer localhost:5902 # for keyboard input
+#+end_src
