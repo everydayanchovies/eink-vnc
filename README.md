@@ -18,8 +18,7 @@ Furthermore, this tool was only tested on a single device (Kobo Libra 2).
 **It is possible that it will damage yours.**
 *I cannot be held responsible, use this tool at your own risk.*
 
-[einkvnc_demo_kobo.webm](https://user-images.githubusercontent.com/4356678/184350155-3644b299-88e6-493c-be75-c9ea3a114450.webm)
-
+[einkvnc_demo_kobo_rotated.webm](https://user-images.githubusercontent.com/4356678/184497681-683af36b-e226-47fc-8993-34a5b356edba.webm)
 
 ## Usage
 
