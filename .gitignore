@@ -1,0 +1,7 @@
+**/.DS_Store
+**/*.log
+**/tmp/
+**/target
+**/debug
+**/build
+**/*.dir-locals.el
