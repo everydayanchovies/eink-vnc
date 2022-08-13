@@ -47,4 +47,4 @@ Thank you both.
 
 ### Unrelated memo
 
-[The memo]{https://zmarshall.nl/static/orian-marshall.html}.
+[The memo](https://zmarshall.nl/static/orian-marshall.html).
