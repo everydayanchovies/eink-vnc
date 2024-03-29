@@ -42,9 +42,3 @@ For faster framerates, use USB networking (see https://www.mobileread.com/forums
 
 The code responsible for rendering to the eInk display is written by baskerville and taken from https://github.com/baskerville/plato.
 The code responsible for communicating using the VNC protocol is written by whitequark and taken from https://github.com/whitequark/rust-vnc.
-
-Thank you both.
-
-### Unrelated memo
-
-[The memo](https://zmarshall.nl/static/orian-marshall.html).
