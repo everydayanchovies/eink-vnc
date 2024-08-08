@@ -30,19 +30,6 @@ use crate::device::CURRENT_DEVICE;
 
 const FB_DEVICE: &str = "/dev/fb0";
 
-const SD_COLOR_FORMAT: PixelFormat = PixelFormat {
-    bits_per_pixel: 8,
-    depth: 24,
-    big_endian: false,
-    true_colour: true,
-    red_max: 255,
-    green_max: 255,
-    blue_max: 255,
-    red_shift: 16,
-    green_shift: 8,
-    blue_shift: 0,
-};
-
 #[repr(align(256))]
 pub struct PostProcBin {
     data: [u8; 256],
@@ -169,9 +156,6 @@ fn main() -> Result<(), Error> {
 
     let vnc_format = vnc.format();
     info!("received {:?}", vnc_format);
-
-    //vnc.set_format(SD_COLOR_FORMAT).unwrap();
-    info!("enforced {:?}", SD_COLOR_FORMAT);
 
     vnc.set_encodings(&[Encoding::CopyRect, Encoding::Zrle])
         .unwrap();
