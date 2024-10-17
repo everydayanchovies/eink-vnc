@@ -5,6 +5,7 @@ jobs:
   build_fbink:
     name: einkvnc
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - name: Linker
       run: sudo apt-get -y install gcc-arm* libstdc++-11-dev-armhf-cross build-essential autoconf automake bison flex gawk libtool libtool-bin libncurses-dev curl file git gperf help2man texinfo unzip wget
