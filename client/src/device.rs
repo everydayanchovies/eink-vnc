@@ -1,10 +1,13 @@
-use crate::input::TouchProto;
-use lazy_static::lazy_static;
 use std::env;
 use std::fmt;
+use lazy_static::lazy_static;
+use crate::input::TouchProto;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Model {
+    ClaraBW,
+    Elipsa2E,
+    Clara2E,
     Libra2,
     Sage,
     Elipsa,
@@ -39,29 +42,32 @@ pub enum Orientation {
 impl fmt::Display for Model {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Model::Libra2 => write!(f, "Libra 2"),
-            Model::Sage => write!(f, "Sage"),
-            Model::Elipsa => write!(f, "Elipsa"),
-            Model::Nia => write!(f, "Nia"),
-            Model::LibraH2O => write!(f, "Libra H₂O"),
-            Model::Forma32GB => write!(f, "Forma 32GB"),
-            Model::Forma => write!(f, "Forma"),
-            Model::ClaraHD => write!(f, "Clara HD"),
-            Model::AuraH2OEd2V1 => write!(f, "Aura H₂O Edition 2 Version 1"),
-            Model::AuraH2OEd2V2 => write!(f, "Aura H₂O Edition 2 Version 2"),
-            Model::AuraEd2V1 => write!(f, "Aura Edition 2 Version 1"),
-            Model::AuraEd2V2 => write!(f, "Aura Edition 2 Version 2"),
-            Model::AuraONELimEd => write!(f, "Aura ONE Limited Edition"),
-            Model::AuraONE => write!(f, "Aura ONE"),
-            Model::Touch2 => write!(f, "Touch 2.0"),
-            Model::GloHD => write!(f, "Glo HD"),
-            Model::AuraH2O => write!(f, "Aura H₂O"),
-            Model::Aura => write!(f, "Aura"),
-            Model::AuraHD => write!(f, "Aura HD"),
-            Model::Mini => write!(f, "Mini"),
-            Model::Glo => write!(f, "Glo"),
-            Model::TouchC => write!(f, "Touch C"),
-            Model::TouchAB => write!(f, "Touch A/B"),
+            Model::ClaraBW       => write!(f, "Clara BW"),
+            Model::Elipsa2E      => write!(f, "Elipsa 2E"),
+            Model::Clara2E       => write!(f, "Clara 2E"),
+            Model::Libra2        => write!(f, "Libra 2"),
+            Model::Sage          => write!(f, "Sage"),
+            Model::Elipsa        => write!(f, "Elipsa"),
+            Model::Nia           => write!(f, "Nia"),
+            Model::LibraH2O      => write!(f, "Libra H₂O"),
+            Model::Forma32GB     => write!(f, "Forma 32GB"),
+            Model::Forma         => write!(f, "Forma"),
+            Model::ClaraHD       => write!(f, "Clara HD"),
+            Model::AuraH2OEd2V1  => write!(f, "Aura H₂O Edition 2 Version 1"),
+            Model::AuraH2OEd2V2  => write!(f, "Aura H₂O Edition 2 Version 2"),
+            Model::AuraEd2V1     => write!(f, "Aura Edition 2 Version 1"),
+            Model::AuraEd2V2     => write!(f, "Aura Edition 2 Version 2"),
+            Model::AuraONELimEd  => write!(f, "Aura ONE Limited Edition"),
+            Model::AuraONE       => write!(f, "Aura ONE"),
+            Model::Touch2        => write!(f, "Touch 2.0"),
+            Model::GloHD         => write!(f, "Glo HD"),
+            Model::AuraH2O       => write!(f, "Aura H₂O"),
+            Model::Aura          => write!(f, "Aura"),
+            Model::AuraHD        => write!(f, "Aura HD"),
+            Model::Mini          => write!(f, "Mini"),
+            Model::Glo           => write!(f, "Glo"),
+            Model::TouchC        => write!(f, "Touch C"),
+            Model::TouchAB       => write!(f, "Touch A/B"),
         }
     }
 }
@@ -127,31 +133,19 @@ impl Device {
                 dpi: 167,
             },
             "daylight" => Device {
-                model: if model_number == "381" {
-                    Model::AuraONELimEd
-                } else {
-                    Model::AuraONE
-                },
+                model: if model_number == "381" { Model::AuraONELimEd } else { Model::AuraONE },
                 proto: TouchProto::MultiA,
                 dims: (1404, 1872),
                 dpi: 300,
             },
             "star" => Device {
-                model: if model_number == "379" {
-                    Model::AuraEd2V2
-                } else {
-                    Model::AuraEd2V1
-                },
+                model: if model_number == "379" { Model::AuraEd2V2 } else { Model::AuraEd2V1 },
                 proto: TouchProto::MultiA,
                 dims: (758, 1024),
                 dpi: 212,
             },
             "snow" => Device {
-                model: if model_number == "378" {
-                    Model::AuraH2OEd2V2
-                } else {
-                    Model::AuraH2OEd2V1
-                },
+                model: if model_number == "378" { Model::AuraH2OEd2V2 } else { Model::AuraH2OEd2V1 },
                 proto: TouchProto::MultiB,
                 dims: (1080, 1440),
                 dpi: 265,
@@ -163,11 +157,7 @@ impl Device {
                 dpi: 300,
             },
             "frost" => Device {
-                model: if model_number == "380" {
-                    Model::Forma32GB
-                } else {
-                    Model::Forma
-                },
+                model: if model_number == "380" { Model::Forma32GB } else { Model::Forma },
                 proto: TouchProto::MultiB,
                 dims: (1440, 1920),
                 dpi: 300,
@@ -202,12 +192,26 @@ impl Device {
                 dims: (1264, 1680),
                 dpi: 300,
             },
+            "goldfinch" => Device {
+                model: Model::Clara2E,
+                proto: TouchProto::MultiB,
+                dims: (1072, 1448),
+                dpi: 300,
+            },
+            "condor" => Device {
+                model: Model::Elipsa2E,
+                proto: TouchProto::MultiC,
+                dims: (1404, 1872),
+                dpi: 227,
+            },
+            "spaBW" => Device {
+                model: Model::ClaraBW,
+                proto: TouchProto::MultiB,
+                dims: (1072, 1448),
+                dpi: 300,
+            },
             _ => Device {
-                model: if model_number == "320" {
-                    Model::TouchC
-                } else {
-                    Model::TouchAB
-                },
+                model: if model_number == "320" { Model::TouchC } else { Model::TouchAB },
                 proto: TouchProto::Single,
                 dims: (600, 800),
                 dpi: 167,
@@ -217,15 +221,19 @@ impl Device {
 
     pub fn frontlight_kind(&self) -> FrontlightKind {
         match self.model {
-            Model::AuraONE | Model::AuraONELimEd | Model::AuraH2OEd2V1 | Model::AuraH2OEd2V2 => {
-                FrontlightKind::Natural
-            }
-            Model::ClaraHD
-            | Model::Forma
-            | Model::Forma32GB
-            | Model::LibraH2O
-            | Model::Sage
-            | Model::Libra2 => FrontlightKind::Premixed,
+            Model::AuraONE |
+            Model::AuraONELimEd |
+            Model::AuraH2OEd2V1 |
+            Model::AuraH2OEd2V2 => FrontlightKind::Natural,
+            Model::ClaraHD |
+            Model::Forma |
+            Model::Forma32GB |
+            Model::LibraH2O |
+            Model::Sage |
+            Model::Libra2 |
+            Model::Clara2E |
+            Model::Elipsa2E |
+            Model::ClaraBW => FrontlightKind::Premixed,
             _ => FrontlightKind::Standard,
         }
     }
@@ -235,26 +243,20 @@ impl Device {
     }
 
     pub fn has_lightsensor(&self) -> bool {
-        matches!(self.model, Model::AuraONE | Model::AuraONELimEd)
+        matches!(self.model,
+                 Model::AuraONE | Model::AuraONELimEd)
     }
 
     pub fn has_gyroscope(&self) -> bool {
-        matches!(
-            self.model,
-            Model::Forma
-                | Model::Forma32GB
-                | Model::LibraH2O
-                | Model::Elipsa
-                | Model::Sage
-                | Model::Libra2
-        )
+        matches!(self.model,
+                 Model::Forma | Model::Forma32GB | Model::LibraH2O |
+                 Model::Elipsa | Model::Sage | Model::Libra2 | Model::Elipsa2E)
     }
 
     pub fn has_page_turn_buttons(&self) -> bool {
-        matches!(
-            self.model,
-            Model::Forma | Model::Forma32GB | Model::LibraH2O | Model::Sage | Model::Libra2
-        )
+        matches!(self.model,
+                 Model::Forma | Model::Forma32GB | Model::LibraH2O |
+                 Model::Sage | Model::Libra2)
     }
 
     pub fn has_power_cover(&self) -> bool {
@@ -262,16 +264,9 @@ impl Device {
     }
 
     pub fn has_removable_storage(&self) -> bool {
-        matches!(
-            self.model,
-            Model::AuraH2O
-                | Model::Aura
-                | Model::AuraHD
-                | Model::Mini
-                | Model::Glo
-                | Model::TouchAB
-                | Model::TouchC
-        )
+        matches!(self.model,
+                 Model::AuraH2O | Model::Aura | Model::AuraHD |
+                 Model::Glo | Model::TouchAB | Model::TouchC)
     }
 
     pub fn should_invert_buttons(&self, rotation: i8) -> bool {
@@ -291,23 +286,31 @@ impl Device {
 
     pub fn mark(&self) -> u8 {
         match self.model {
+            Model::ClaraBW => 12,
+            Model::Elipsa2E => 11,
+            Model::Clara2E => 10,
             Model::Libra2 => 9,
-            Model::Sage | Model::Elipsa => 8,
-            Model::Nia
-            | Model::LibraH2O
-            | Model::Forma32GB
-            | Model::Forma
-            | Model::ClaraHD
-            | Model::AuraH2OEd2V2
-            | Model::AuraEd2V2 => 7,
-            Model::AuraH2OEd2V1
-            | Model::AuraEd2V1
-            | Model::AuraONELimEd
-            | Model::AuraONE
-            | Model::Touch2
-            | Model::GloHD => 6,
-            Model::AuraH2O | Model::Aura => 5,
-            Model::AuraHD | Model::Mini | Model::Glo | Model::TouchC => 4,
+            Model::Sage |
+            Model::Elipsa => 8,
+            Model::Nia |
+            Model::LibraH2O |
+            Model::Forma32GB |
+            Model::Forma |
+            Model::ClaraHD |
+            Model::AuraH2OEd2V2 |
+            Model::AuraEd2V2 => 7,
+            Model::AuraH2OEd2V1 |
+            Model::AuraEd2V1 |
+            Model::AuraONELimEd |
+            Model::AuraONE |
+            Model::Touch2 |
+            Model::GloHD => 6,
+            Model::AuraH2O |
+            Model::Aura => 5,
+            Model::AuraHD |
+            Model::Mini |
+            Model::Glo |
+            Model::TouchC => 4,
             Model::TouchAB => 3,
         }
     }
@@ -324,7 +327,9 @@ impl Device {
     // Returns the center and direction of the mirroring pattern.
     pub fn mirroring_scheme(&self) -> (i8, i8) {
         match self.model {
-            Model::AuraH2OEd2V1 | Model::LibraH2O | Model::Libra2 => (3, 1),
+            Model::AuraH2OEd2V1 |
+            Model::LibraH2O |
+            Model::Libra2 => (3, 1),
             Model::Sage => (0, 1),
             Model::AuraH2OEd2V2 => (0, -1),
             Model::Forma | Model::Forma32GB => (2, -1),
@@ -348,9 +353,9 @@ impl Device {
     pub fn startup_rotation(&self) -> i8 {
         match self.model {
             Model::LibraH2O => 0,
-            Model::AuraH2OEd2V1 | Model::Forma | Model::Forma32GB | Model::Sage | Model::Libra2 => {
-                1
-            }
+            Model::AuraH2OEd2V1 |
+            Model::Forma | Model::Forma32GB |
+            Model::Sage | Model::Libra2 | Model::Elipsa2E => 1,
             _ => 3,
         }
     }
@@ -374,7 +379,8 @@ impl Device {
     pub fn transformed_rotation(&self, n: i8) -> i8 {
         match self.model {
             Model::AuraHD | Model::AuraH2O => n ^ 2,
-            Model::AuraH2OEd2V2 | Model::Forma | Model::Forma32GB => (4 - n) % 4,
+            Model::AuraH2OEd2V2 |
+            Model::Forma | Model::Forma32GB => (4 - n) % 4,
             _ => n,
         }
     }
@@ -382,7 +388,9 @@ impl Device {
     pub fn transformed_gyroscope_rotation(&self, n: i8) -> i8 {
         match self.model {
             Model::LibraH2O => n ^ 1,
-            Model::Libra2 | Model::Sage => (6 - n) % 4,
+            Model::Libra2 |
+            Model::Sage |
+            Model::Elipsa2E => (6 - n) % 4,
             Model::Elipsa => (4 - n) % 4,
             _ => n,
         }
@@ -410,9 +418,7 @@ mod tests {
             assert_eq!(forma.from_canonical(forma.to_canonical(n)), n);
         }
         assert_eq!(aura_one.from_canonical(0), aura_one.startup_rotation());
-        assert_eq!(
-            forma.from_canonical(1) - forma.from_canonical(0),
-            aura_one.from_canonical(2) - aura_one.from_canonical(3)
-        );
+        assert_eq!(forma.from_canonical(1) - forma.from_canonical(0),
+                   aura_one.from_canonical(2) - aura_one.from_canonical(3));
     }
 }
