@@ -6,7 +6,6 @@ pub mod proxy;
 
 pub use client::Client;
 pub use protocol::{Colour, Encoding, PixelFormat};
-pub use proxy::Proxy;
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub struct Rect {

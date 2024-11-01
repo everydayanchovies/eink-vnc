@@ -420,9 +420,12 @@ impl Client {
         debug!("02");
         'outer: loop {
             for event in self.poll_iter() {
+                debug!("got an event");
                 match event {
                     Event::PutPixels(rect, _) if rect == framebuffer_rect => break 'outer,
-                    _ => (),
+                    Event::EndOfFrame => break 'outer,
+                    //_ => {debug!("Event: {:?}", event)},
+                    _ => ()
                 }
             }
         }
