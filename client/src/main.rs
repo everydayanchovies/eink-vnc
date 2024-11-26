@@ -18,7 +18,7 @@ use crate::framebuffer::{Framebuffer, KoboFramebuffer1, KoboFramebuffer2, Pixmap
 use crate::geom::Rectangle;
 use crate::vnc::{client, Client, Encoding, Rect};
 use clap::{value_t, App, Arg};
-use log::{debug, error, info, warn};
+use log::{debug, error, info};
 use std::thread;
 use std::time::Duration;
 use std::time::Instant;
@@ -29,19 +29,6 @@ use anyhow::{Context as ResultExt, Error};
 use crate::device::CURRENT_DEVICE;
 
 const FB_DEVICE: &str = "/dev/fb0";
-
-const SD_COLOR_FORMAT: PixelFormat = PixelFormat {
-    bits_per_pixel: 8,
-    depth: 16,
-    big_endian: false,
-    true_colour: true,
-    red_max: 255,
-    green_max: 255,
-    blue_max: 255,
-    red_shift: 16,
-    green_shift: 8,
-    blue_shift: 0,
-};
 
 #[repr(align(256))]
 pub struct PostProcBin {
@@ -176,9 +163,6 @@ fn main() -> Result<(), Error> {
     let vnc_format = vnc.format();
     info!("received {:?}", vnc_format);
 
-    vnc.set_format(SD_COLOR_FORMAT).unwrap();
-    info!("enforced {:?}", SD_COLOR_FORMAT);
-
     vnc.set_encodings(&[Encoding::CopyRect, Encoding::Zrle])
         .unwrap();
 
@@ -288,9 +272,17 @@ fn main() -> Result<(), Error> {
                     let elapsed_ms = time_at_sol.elapsed().as_millis();
                     debug!("network Δt: {}", elapsed_ms);
 
+                    let scale_down = 
+                        pixels
+                            .iter()
+                            .step_by(4)
+                            .map(|&c| post_proc_bin.data[c as usize])
+                            .collect();
+
                     let post_proc_pixels = if post_proc_enabled {
                         pixels
                             .iter()
+                            .step_by(4)
                             .map(|&c| post_proc_bin.data[c as usize])
                             .collect()
                     } else {
@@ -300,7 +292,7 @@ fn main() -> Result<(), Error> {
                     let pixels = if post_proc_enabled {
                         &post_proc_pixels
                     } else {
-                        pixels
+                        &scale_down
                     };
 
                     let w = vnc_rect.width as u32;
@@ -313,6 +305,7 @@ fn main() -> Result<(), Error> {
                         height: h as u32,
                         data: pixels,
                     };
+                    debug!("Put pixels {} {} {} size {}",w,h,w*h,pixels.len());
 
                     let elapsed_ms = time_at_sol.elapsed().as_millis();
                     debug!("postproc Δt: {}", elapsed_ms);
