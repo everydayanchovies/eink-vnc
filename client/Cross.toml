@@ -1,0 +1,2 @@
+[target.arm-unknown-linux-musleabihf]
+image = "ewpratten/kobo-cross-armhf:latest"
